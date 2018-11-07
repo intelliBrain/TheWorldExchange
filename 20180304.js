@@ -16,14 +16,14 @@ var servers = [
 
 // Configurables
 var dataAPI = "https://data.ripple.com";
-var chatWallet = "rfaSyhoQmHQaFv8qNoWaALNPQf7pa7sm7Q"; // wallet used for storing chatroom messages, will just receive tons of failed sends
+//var chatWallet = "rfaSyhoQmHQaFv8qNoWaALNPQf7pa7sm7Q"; // wallet used for storing chatroom messages, will just receive tons of failed sends
 var namesWallet = "rpKi47qegs2uCrBJnvRay49KSBd8w569oK"; // wallet used for storing display names, will just receive tons of failed sends
 var profilesWallet = "rw5pBaMLY29Vxfw9jigPAczSdt3CsLfCqD"; // wallet used for storing token info, will just receive tons of failed sends
 var transactionServer = "wss://s2.ripple.com/"; // server for pulling transaction history
 
 var accuracy = 8;
 var updateInterval = 2; // seconds
-var chatUpdateInterval = 10; // seconds
+//var chatUpdateInterval = 10; // seconds
 var reconnectInterval = 600; // number of intervals before reconnecting to reset connection, reduces stale connections etc
 var maxLedgerOffset = 100; // High number of maxLedger errors during heavy trading periods if we leave it at default
 var maxFee = "2000"; // Would rather overpay than not see my order go through during heavy trading
@@ -95,9 +95,9 @@ var lastIssuer2 = "";
 var lastSymbol2 = "";
 var destTag = "";
 var memo = "";
-var showChat = false;
-var lastChat = "";
-var lastChatTime = 0;
+//var showChat = false;
+//var lastChat = "";
+//var lastChatTime = 0;
 var displayName = {}; // address: displayName
 var displayNameDetails = {}; // displayName: {date:<date>, address: address}
 //var failedLogin = "";
@@ -110,10 +110,10 @@ var showOrderbook = false;
 var errored = false;
 var loggingIn = false;
 var refreshImmediately = false;
-var chatLoaded = false;
+//var chatLoaded = false;
 var disableScrollToAbout = false; // for when scrolling shouldn't open the about page
 var scrolling = false;
-var currentChatUpdateInterval = 1; // for speeding up after you've sent a message before increasing back to normal
+//var currentChatUpdateInterval = 1; // for speeding up after you've sent a message before increasing back to normal
 
 var trustlines = {
   
@@ -209,16 +209,16 @@ function updateLoginMessage() {
   if(address!="" && $("#yourAccount").css("display")!="block") {
     $("#welcome").css("display", "none");
     $("#yourAccount").css("display", "block");
-    $("#chatSettings").css("display", "block");
-    $("#chatTitle").css("display", "none");
-    refreshChatLayout();
+    //$("#chatSettings").css("display", "block");
+    //$("#chatTitle").css("display", "none");
+    //refreshChatLayout();
   }
   else if(address=="" && $("#yourAccount").css("display")!="none") {
     $("#welcome").css("display", "block");
     $("#yourAccount").css("display", "none");
-    $("#chatSettings").css("display", "none");
-    $("#chatTitle").css("display", "block");
-    refreshChatLayout();
+    //$("#chatSettings").css("display", "none");
+    //$("#chatTitle").css("display", "block");
+    //refreshChatLayout();
   }
 }
 
@@ -560,7 +560,8 @@ function loadAccount(loadOrderbookNext) {
     // Show account information only if logged in
     var tag = "div";
     if(address=="") tag="span";
-    var commonMenu = "<"+tag+" id='tutorialsHeader'><a href='https://www.youtube.com/playlist?list=PLHAK7FXoElZOyM6MaQ_O_i6ATap2k9r-o' target='_blank'>Video Tutorials</a></div>"+(address==""? " &nbsp; ":"")+"<"+tag+" id='chatHide' "+(showChat? "":"style='display:none;'")+"><a href='#' onclick='hideChatbox(); "+(isMobile()? "hideMiscMenu();":"")+"'>Hide Chat</a></"+tag+"><"+tag+" id='chatShow' "+(!showChat? "":"style='display:none;'")+"><a href='#' onclick='showChatbox(); "+(isMobile()? "hideMiscMenu();":"")+"'>Show Chat</a></"+tag+">";
+    // var commonMenu = "<"+tag+" id='tutorialsHeader'><a href='https://www.youtube.com/playlist?list=PLHAK7FXoElZOyM6MaQ_O_i6ATap2k9r-o' target='_blank'>Video Tutorials</a></div>"+(address==""? " &nbsp; ":"")+"<"+tag+" id='chatHide' "+(showChat? "":"style='display:none;'")+"><a href='#' onclick='hideChatbox(); "+(isMobile()? "hideMiscMenu();":"")+"'>Hide Chat</a></"+tag+"><"+tag+" id='chatShow' "+(!showChat? "":"style='display:none;'")+"><a href='#' onclick='showChatbox(); "+(isMobile()? "hideMiscMenu();":"")+"'>Show Chat</a></"+tag+">";
+    var commonMenu = ""; //"<"+tag+" id='tutorialsHeader'><a href='https://www.youtube.com/playlist?list=PLHAK7FXoElZOyM6MaQ_O_i6ATap2k9r-o' target='_blank'>Video Tutorials</a></div>"+(address==""? " &nbsp; ":"")+"<"+tag+" id='chatHide' "+(showChat? "":"style='display:none;'")+"><a href='#' onclick='hideChatbox(); "+(isMobile()? "hideMiscMenu();":"")+"'>Hide Chat</a></"+tag+"><"+tag+" id='chatShow' "+(!showChat? "":"style='display:none;'")+"><a href='#' onclick='showChatbox(); "+(isMobile()? "hideMiscMenu();":"")+"'>Show Chat</a></"+tag+">";
     if($.trim($("#miscMenu").html())=="") {
       changeMiscMenu = true;
     }
@@ -637,13 +638,13 @@ function getInterval() {
   }
   else return updateInterval*1000;
 }
-function getChatInterval() {
-  if(currentChatUpdateInterval == 0) {
-    //console.log("Forcing refresh immediately...");
-    return 1;
-  }
-  else return currentChatUpdateInterval*1000;
-}
+// function getChatInterval() {
+//   if(currentChatUpdateInterval == 0) {
+//     //console.log("Forcing refresh immediately...");
+//     return 1;
+//   }
+//   else return currentChatUpdateInterval*1000;
+// }
 
 // Show/hide misc menu for mobile
 function showMiscMenu() {
@@ -664,37 +665,37 @@ function hideMiscMenu() {
 }
 
 // Close/open chat box
-function showChatbox(updateMenu) {
-  if(updateMenu===undefined || updateMenu=='undefined') updateMenu = true;
+// function showChatbox(updateMenu) {
+//   if(updateMenu===undefined || updateMenu=='undefined') updateMenu = true;
   
-  if(isMobile()) {
-    $("#about").css("display", "none");
-  }
+//   if(isMobile()) {
+//     $("#about").css("display", "none");
+//   }
   
-  showChat = true;
-  currentChatUpdateInterval = 0;
-  document.getElementById("chatbox").style.display="initial"; 
-  if(document.getElementById("chatShow")!=null && updateMenu) { // not built until end of doc load
-    document.getElementById("chatShow").style.display="none"; 
-    document.getElementById("chatHide").style.display="initial"; 
-    rescaleChat();
-  }
-}
-function hideChatbox(updateMenu) {
-  if(updateMenu===undefined || updateMenu=='undefined') updateMenu = true;
+//   showChat = true;
+//   currentChatUpdateInterval = 0;
+//   document.getElementById("chatbox").style.display="initial"; 
+//   if(document.getElementById("chatShow")!=null && updateMenu) { // not built until end of doc load
+//     document.getElementById("chatShow").style.display="none"; 
+//     document.getElementById("chatHide").style.display="initial"; 
+//     rescaleChat();
+//   }
+// }
+// function hideChatbox(updateMenu) {
+//   if(updateMenu===undefined || updateMenu=='undefined') updateMenu = true;
   
-  showChat = false; 
-  document.getElementById("chatbox").style.display="none"; 
+//   showChat = false; 
+//   document.getElementById("chatbox").style.display="none"; 
   
-  if(isMobile() && checkNoOverlays()) {
-    $("#about").css("display", "block");
-  }
+//   if(isMobile() && checkNoOverlays()) {
+//     $("#about").css("display", "block");
+//   }
   
-  if(document.getElementById("chatShow")!=null && updateMenu) {//not built until end of doc load
-    document.getElementById("chatShow").style.display="initial"; 
-    document.getElementById("chatHide").style.display="none"; 
-  }
-}
+//   if(document.getElementById("chatShow")!=null && updateMenu) {//not built until end of doc load
+//     document.getElementById("chatShow").style.display="initial"; 
+//     document.getElementById("chatHide").style.display="none"; 
+//   }
+// }
 
 // Close/open profile box
 function showProfilebox() {
@@ -712,7 +713,7 @@ function hideProfilebox() {
 }
 
 function checkNoOverlays() {
-  return document.getElementById("chatbox").style.display=="none" && document.getElementById("profilebox").style.display=="none";
+  return document.getElementById("profilebox").style.display=="none";
 }
 
 // Check and display minXRP needed
@@ -1355,182 +1356,184 @@ function loadOrderbook(updateMessageOnly, repeat) {
     // If we don't already have an error, display the default page description depending on the action selected
     // To prevent this block from displaying the default page description, set errored=true, which gets reset to false on any action, symbol, or setting changes
     if(!errored) {
-      if(action!="issue" && action!="send" && $.trim( $('#orderbook').html() ).length) {
-        $("#errors").html("&nbsp;");
-        refreshLayout();
-      }
-      else if(action=='issue' && (symbol1=="" || orderbook==null || Math.max(orderbook.bids.length, orderbook.asks.length)==0)) {
-          errored=true;
-          $("#errors").html("Issue your own token for others trade and represent anything you want.<br />Token symbols must be exactly 3 letters and cannot be '"+baseCurrency+"'.<br /><br />Offer your symbol for "+baseCurrency+" to automatically offer for every symbol<br /> and accept any form of exchange. (think of it as a wildcard)<br /><br />See: <a href='#represent' onclick='document.getElementById(\"about\").style.display=\"block\"; setURL(\"#represent\"); jQuery(\"html,body\").animate({scrollTop: jQuery(\"#represent\").offset().top}, 1000); return false;'>Issue Tokens to Represent Any Form of Value or Ownership</a>");
-          refreshLayout();
-      }
-      else if(action=='send') {
-          errored=true;
-          var qrsize = 196;
-          if(isMobile()) qrsize = 256;
-          $("#errors").html("Send to others by inputting their account address above.<br />For non-XRP, make sure they set their <a href='#' onclick='aboutReceivables(); return false;'>Receivable Tokens</a> list.<br /><br />To receive or let others send to you, share the below link or QR Code:<br /><input type='text' value='https://www.theworldexchange.net/?action=send&amp;recipient="+address+(destTag==""? "":"&amp;destTag="+destTag)+($("#qty1").val()==""? "":"&amp;qty1="+$("#qty1").val())+($("#symbol1").val()==""? "":"&amp;symbol1="+$("#symbol1").val()+(issuer1==""? "":"."+issuer1))+"' onclick='this.select();' readonly='readonly' class='linkShare' /><br /><br /><div id='qrcode' style='text-align:center; margin:auto; width:"+qrsize+"px;'> </div>"+(address==""? "<br />(Note: <a href='#' onclick='showLogin();'>Login</a> first to get a valid link/QR with your address.)":""));
-          new QRCode(document.getElementById("qrcode"), {text:"https://www.theworldexchange.net/?action=send&recipient="+address+(destTag==""? "":"&destTag="+destTag)+($("#qty1").val()==""? "":"&qty1="+$("#qty1").val())+($("#symbol1").val()==""? "":"&symbol1="+$("#symbol1").val()+(issuer1==""? "":"."+issuer1)), width:qrsize, height:qrsize});
-          refreshLayout();
-      }
-      else refreshLayout();
+      // if(action!="issue" && action!="send" && $.trim( $('#orderbook').html() ).length) {
+      //   $("#errors").html("&nbsp;");
+      //   refreshLayout();
+      // }
+      // else if(action=='issue' && (symbol1=="" || orderbook==null || Math.max(orderbook.bids.length, orderbook.asks.length)==0)) {
+      //     errored=true;
+      //     $("#errors").html("Issue your own token for others trade and represent anything you want.<br />Token symbols must be exactly 3 letters and cannot be '"+baseCurrency+"'.<br /><br />Offer your symbol for "+baseCurrency+" to automatically offer for every symbol<br /> and accept any form of exchange. (think of it as a wildcard)<br /><br />See: <a href='#represent' onclick='document.getElementById(\"about\").style.display=\"block\"; setURL(\"#represent\"); jQuery(\"html,body\").animate({scrollTop: jQuery(\"#represent\").offset().top}, 1000); return false;'>Issue Tokens to Represent Any Form of Value or Ownership</a>");
+      //     refreshLayout();
+      // }
+      // else if(action=='send') {
+      //     errored=true;
+      //     var qrsize = 196;
+      //     if(isMobile()) qrsize = 256;
+      //     $("#errors").html("Send to others by inputting their account address above.<br />For non-XRP, make sure they set their <a href='#' onclick='aboutReceivables(); return false;'>Receivable Tokens</a> list.<br /><br />To receive or let others send to you, share the below link or QR Code:<br /><input type='text' value='https://www.theworldexchange.net/?action=send&amp;recipient="+address+(destTag==""? "":"&amp;destTag="+destTag)+($("#qty1").val()==""? "":"&amp;qty1="+$("#qty1").val())+($("#symbol1").val()==""? "":"&amp;symbol1="+$("#symbol1").val()+(issuer1==""? "":"."+issuer1))+"' onclick='this.select();' readonly='readonly' class='linkShare' /><br /><br /><div id='qrcode' style='text-align:center; margin:auto; width:"+qrsize+"px;'> </div>"+(address==""? "<br />(Note: <a href='#' onclick='showLogin();'>Login</a> first to get a valid link/QR with your address.)":""));
+      //     new QRCode(document.getElementById("qrcode"), {text:"https://www.theworldexchange.net/?action=send&recipient="+address+(destTag==""? "":"&destTag="+destTag)+($("#qty1").val()==""? "":"&qty1="+$("#qty1").val())+($("#symbol1").val()==""? "":"&symbol1="+$("#symbol1").val()+(issuer1==""? "":"."+issuer1)), width:qrsize, height:qrsize});
+      //     refreshLayout();
+      // }
+      //else refreshLayout();
+      refreshLayout();
     }
     
     // Add to autocomplete if this is a real ticker
-    if(orderbook!=null && orderbookExists) {
-      if(symbol1!="" && !(symbol1 in issuers)) {
-        issuers[symbol1] = [];
-      }
-      if(issuer1!="" && issuers[symbol1].indexOf(issuer1)<0) {
-        issuers[symbol1].push(issuer1);
-      }
-      if(symbol2!="" && !(symbol2 in issuers)) {
-        issuers[symbol2] = [];
-      }
-      if(issuer2!="" && issuers[symbol2].indexOf(issuer2)<0) {
-        issuers[symbol2].push(issuer2);
-      }
-    }
+    // if(orderbook!=null && orderbookExists) {
+    //   if(symbol1!="" && !(symbol1 in issuers)) {
+    //     issuers[symbol1] = [];
+    //   }
+    //   if(issuer1!="" && issuers[symbol1].indexOf(issuer1)<0) {
+    //     issuers[symbol1].push(issuer1);
+    //   }
+    //   if(symbol2!="" && !(symbol2 in issuers)) {
+    //     issuers[symbol2] = [];
+    //   }
+    //   if(issuer2!="" && issuers[symbol2].indexOf(issuer2)<0) {
+    //     issuers[symbol2].push(issuer2);
+    //   }
+    // }
     
     // Parse through the orderbook and turn it into an HTML table
-    if(!skipUpdate && !updateMessageOnly && showOrderbook && orderbook!=null && orderbookExists) {
+    // if(!skipUpdate && !updateMessageOnly && showOrderbook && orderbook!=null && orderbookExists) {
     
-      var bidasktable = "";
+    //   var bidasktable = "";
   
-      // Create table header
-      var cols = 5;
-      bidasktable += "<table id='orderbooktable'><tr><td colspan='"+(cols)+"' style='text-align:left;'>Offers to Buy</td><td colspan='1' style='text-align:center; overflow:hidden;'><a href='?action="+(action=="sell"? "buy":"sell")+"&amp;qty1="+($("#qty1").val()*$("#price").val())+"&amp;symbol1="+symbol2+(issuer2==""? "":"."+issuer2)+"&amp;price="+(1/$("#price").val())+"&amp;symbol2="+symbol1+(issuer1==""? "":"."+issuer1)+"' target='_blank' onclick='loadURLSymbols(\""+(action=="sell"? "buy":"sell")+"\", $(\"#qty1\").val()*$(\"#price\").val(), \""+symbol2+(issuer2==""? "":"."+issuer2)+"\", 1/$(\"#price\").val(), \""+symbol1+(issuer1==""? "":"."+issuer1)+"\"); return false;'>Switch</a> </td><td colspan='"+(cols)+"' style='text-align:right;'>Offers to Sell</td></tr>";
+    //   // Create table header
+    //   var cols = 5;
+    //   bidasktable += "<table id='orderbooktable'><tr><td colspan='"+(cols)+"' style='text-align:left;'>Offers to Buy</td><td colspan='1' style='text-align:center; overflow:hidden;'><a href='?action="+(action=="sell"? "buy":"sell")+"&amp;qty1="+($("#qty1").val()*$("#price").val())+"&amp;symbol1="+symbol2+(issuer2==""? "":"."+issuer2)+"&amp;price="+(1/$("#price").val())+"&amp;symbol2="+symbol1+(issuer1==""? "":"."+issuer1)+"' target='_blank' onclick='loadURLSymbols(\""+(action=="sell"? "buy":"sell")+"\", $(\"#qty1\").val()*$(\"#price\").val(), \""+symbol2+(issuer2==""? "":"."+issuer2)+"\", 1/$(\"#price\").val(), \""+symbol1+(issuer1==""? "":"."+issuer1)+"\"); return false;'>Switch</a> </td><td colspan='"+(cols)+"' style='text-align:right;'>Offers to Sell</td></tr>";
       
-      var bids = [];
-      var asks = [];
-      var bidTotal = 0;
-      var askTotal = 0;
+    //   var bids = [];
+    //   var asks = [];
+    //   var bidTotal = 0;
+    //   var askTotal = 0;
       
-      // Iterate through both sides of the orderbook simultaneously
-      for(var i=0; i<Math.max(orderbook.bids.length, orderbook.asks.length); i++) {
+    //   // Iterate through both sides of the orderbook simultaneously
+    //   for(var i=0; i<Math.max(orderbook.bids.length, orderbook.asks.length); i++) {
 
-         // Bid side of the orderbook
-         if(i<orderbook.bids.length && orderbook.bids[i].specification.quantity.value!=0) {
-          var row1 = ""; var bid = 0; var q1 = 0; var counterparty = ""; var counterparty2 = ""; var s1 = ""; var s2="";
-          if(orderbook.bids[i].state!=null && orderbook.bids[i].state.fundedAmount!=null && orderbook.bids[i].state.fundedAmount.value>0) {
-             bid = (1.00000000*orderbook.bids[i].specification.totalPrice.value)/(1.00000000*orderbook.bids[i].specification.quantity.value);
-             counterparty = ""+orderbook.bids[i].specification.quantity.counterparty;
-             counterparty2 = ""+orderbook.bids[i].specification.totalPrice.counterparty;
-             q1=orderbook.bids[i].state.fundedAmount.value / bid;
-             s1 = orderbook.bids[i].specification.quantity.currency + (counterparty!="undefined" && (!(orderbook.bids[i].specification.quantity.currency in issuers) || (issuers[orderbook.bids[i].specification.quantity.currency].length>0))? "."+counterparty:"");
-             s2 = orderbook.bids[i].specification.totalPrice.currency + (counterparty2!="undefined" && (!(orderbook.bids[i].specification.totalPrice.currency in issuers) || (issuers[orderbook.bids[i].specification.totalPrice.currency].length>0))? "."+counterparty2:"");
+    //      // Bid side of the orderbook
+    //      if(i<orderbook.bids.length && orderbook.bids[i].specification.quantity.value!=0) {
+    //       var row1 = ""; var bid = 0; var q1 = 0; var counterparty = ""; var counterparty2 = ""; var s1 = ""; var s2="";
+    //       if(orderbook.bids[i].state!=null && orderbook.bids[i].state.fundedAmount!=null && orderbook.bids[i].state.fundedAmount.value>0) {
+    //          bid = (1.00000000*orderbook.bids[i].specification.totalPrice.value)/(1.00000000*orderbook.bids[i].specification.quantity.value);
+    //          counterparty = ""+orderbook.bids[i].specification.quantity.counterparty;
+    //          counterparty2 = ""+orderbook.bids[i].specification.totalPrice.counterparty;
+    //          q1=orderbook.bids[i].state.fundedAmount.value / bid;
+    //          s1 = orderbook.bids[i].specification.quantity.currency + (counterparty!="undefined" && (!(orderbook.bids[i].specification.quantity.currency in issuers) || (issuers[orderbook.bids[i].specification.quantity.currency].length>0))? "."+counterparty:"");
+    //          s2 = orderbook.bids[i].specification.totalPrice.currency + (counterparty2!="undefined" && (!(orderbook.bids[i].specification.totalPrice.currency in issuers) || (issuers[orderbook.bids[i].specification.totalPrice.currency].length>0))? "."+counterparty2:"");
             
-          }
-          else {
-             bid = (1.00000000*orderbook.bids[i].specification.totalPrice.value)/(1.00000000*orderbook.bids[i].specification.quantity.value);
-             counterparty = ""+orderbook.bids[i].specification.quantity.counterparty;
-             counterparty2 = ""+orderbook.bids[i].specification.totalPrice.counterparty;
-             q1=orderbook.bids[i].specification.quantity.value;
-             s1 = orderbook.bids[i].specification.quantity.currency + (counterparty!="undefined" && (!(orderbook.bids[i].specification.quantity.currency in issuers) || (issuers[orderbook.bids[i].specification.quantity.currency].length>0))? "."+counterparty:"");
-             s2 = orderbook.bids[i].specification.totalPrice.currency + (counterparty2!="undefined" && (!(orderbook.bids[i].specification.totalPrice.currency in issuers) || (issuers[orderbook.bids[i].specification.totalPrice.currency].length>0))? "."+counterparty2:"");
+    //       }
+    //       else {
+    //          bid = (1.00000000*orderbook.bids[i].specification.totalPrice.value)/(1.00000000*orderbook.bids[i].specification.quantity.value);
+    //          counterparty = ""+orderbook.bids[i].specification.quantity.counterparty;
+    //          counterparty2 = ""+orderbook.bids[i].specification.totalPrice.counterparty;
+    //          q1=orderbook.bids[i].specification.quantity.value;
+    //          s1 = orderbook.bids[i].specification.quantity.currency + (counterparty!="undefined" && (!(orderbook.bids[i].specification.quantity.currency in issuers) || (issuers[orderbook.bids[i].specification.quantity.currency].length>0))? "."+counterparty:"");
+    //          s2 = orderbook.bids[i].specification.totalPrice.currency + (counterparty2!="undefined" && (!(orderbook.bids[i].specification.totalPrice.currency in issuers) || (issuers[orderbook.bids[i].specification.totalPrice.currency].length>0))? "."+counterparty2:"");
              
-          }
+    //       }
             
-            bids[bids.length] = {direction:orderbook.bids[i].specification.direction, counterparty:counterparty, counterparty2:counterparty2, qty:parseFloat(q1), symbol1complete:s1, symbol2complete:s2, symbol1:orderbook.bids[i].specification.quantity.currency, symbol2:orderbook.bids[i].specification.totalPrice.currency, price:(bid).toFixed(accuracy)};
-            bidTotal+=parseFloat(q1);
-        }
+    //         bids[bids.length] = {direction:orderbook.bids[i].specification.direction, counterparty:counterparty, counterparty2:counterparty2, qty:parseFloat(q1), symbol1complete:s1, symbol2complete:s2, symbol1:orderbook.bids[i].specification.quantity.currency, symbol2:orderbook.bids[i].specification.totalPrice.currency, price:(bid).toFixed(accuracy)};
+    //         bidTotal+=parseFloat(q1);
+    //     }
         
-        // Ask side of the orderbook
-        if(i< orderbook.asks.length && orderbook.asks[i].specification.quantity.value!=0) {
-          var row2 = ""; var ask = 0; var counterparty = ""; var counterparty2 = ""; var q1 = 0; var s1 = ""; var s2 = "";
-          if(orderbook.asks[i].state!=null && orderbook.asks[i].state.fundedAmount!=null && orderbook.asks[i].state.fundedAmount.value>0) {
-             ask = (1.00000000*orderbook.asks[i].specification.totalPrice.value)/(1.00000000*orderbook.asks[i].specification.quantity.value);
-             counterparty = ""+orderbook.asks[i].specification.quantity.counterparty;
-             counterparty2 = ""+orderbook.asks[i].specification.totalPrice.counterparty;
-             q1=orderbook.asks[i].state.fundedAmount.value;
-             s1 = orderbook.asks[i].specification.quantity.currency + (counterparty!="undefined" && (!(orderbook.asks[i].specification.quantity.currency in issuers) || (issuers[orderbook.asks[i].specification.quantity.currency].length>0))? "."+counterparty:"");
-             s2 = orderbook.asks[i].specification.totalPrice.currency + (counterparty2!="undefined" && (!(orderbook.asks[i].specification.totalPrice.currency in issuers) || (issuers[orderbook.asks[i].specification.totalPrice.currency].length>0))? "."+counterparty2:"");
-          }
-          else {
-             ask = (1.00000000*orderbook.asks[i].specification.totalPrice.value)/(1.00000000*orderbook.asks[i].specification.quantity.value);
-             counterparty = ""+orderbook.asks[i].specification.quantity.counterparty;
-             counterparty2 = ""+orderbook.asks[i].specification.totalPrice.counterparty;
-             q1=orderbook.asks[i].specification.quantity.value;
-             s1 = orderbook.asks[i].specification.quantity.currency + (counterparty!="undefined" && (!(orderbook.asks[i].specification.quantity.currency in issuers) || (issuers[orderbook.asks[i].specification.quantity.currency].length>0))? "."+counterparty:"");
-             s2 = orderbook.asks[i].specification.totalPrice.currency + (counterparty2!="undefined" && (!(orderbook.asks[i].specification.totalPrice.currency in issuers) || (issuers[orderbook.asks[i].specification.totalPrice.currency].length>0))? "."+counterparty2:"");
-          }
+    //     // Ask side of the orderbook
+    //     if(i< orderbook.asks.length && orderbook.asks[i].specification.quantity.value!=0) {
+    //       var row2 = ""; var ask = 0; var counterparty = ""; var counterparty2 = ""; var q1 = 0; var s1 = ""; var s2 = "";
+    //       if(orderbook.asks[i].state!=null && orderbook.asks[i].state.fundedAmount!=null && orderbook.asks[i].state.fundedAmount.value>0) {
+    //          ask = (1.00000000*orderbook.asks[i].specification.totalPrice.value)/(1.00000000*orderbook.asks[i].specification.quantity.value);
+    //          counterparty = ""+orderbook.asks[i].specification.quantity.counterparty;
+    //          counterparty2 = ""+orderbook.asks[i].specification.totalPrice.counterparty;
+    //          q1=orderbook.asks[i].state.fundedAmount.value;
+    //          s1 = orderbook.asks[i].specification.quantity.currency + (counterparty!="undefined" && (!(orderbook.asks[i].specification.quantity.currency in issuers) || (issuers[orderbook.asks[i].specification.quantity.currency].length>0))? "."+counterparty:"");
+    //          s2 = orderbook.asks[i].specification.totalPrice.currency + (counterparty2!="undefined" && (!(orderbook.asks[i].specification.totalPrice.currency in issuers) || (issuers[orderbook.asks[i].specification.totalPrice.currency].length>0))? "."+counterparty2:"");
+    //       }
+    //       else {
+    //          ask = (1.00000000*orderbook.asks[i].specification.totalPrice.value)/(1.00000000*orderbook.asks[i].specification.quantity.value);
+    //          counterparty = ""+orderbook.asks[i].specification.quantity.counterparty;
+    //          counterparty2 = ""+orderbook.asks[i].specification.totalPrice.counterparty;
+    //          q1=orderbook.asks[i].specification.quantity.value;
+    //          s1 = orderbook.asks[i].specification.quantity.currency + (counterparty!="undefined" && (!(orderbook.asks[i].specification.quantity.currency in issuers) || (issuers[orderbook.asks[i].specification.quantity.currency].length>0))? "."+counterparty:"");
+    //          s2 = orderbook.asks[i].specification.totalPrice.currency + (counterparty2!="undefined" && (!(orderbook.asks[i].specification.totalPrice.currency in issuers) || (issuers[orderbook.asks[i].specification.totalPrice.currency].length>0))? "."+counterparty2:"");
+    //       }
           
-          asks[asks.length] = {direction:orderbook.asks[i].specification.direction, counterparty:counterparty, counterparty2:counterparty2, qty:parseFloat(q1), symbol1complete:s1, symbol2complete:s2, symbol1:orderbook.asks[i].specification.quantity.currency, symbol2:orderbook.asks[i].specification.totalPrice.currency, price:(ask).toFixed(accuracy)};
-          askTotal+=parseFloat(q1);
-        }
-      }
+    //       asks[asks.length] = {direction:orderbook.asks[i].specification.direction, counterparty:counterparty, counterparty2:counterparty2, qty:parseFloat(q1), symbol1complete:s1, symbol2complete:s2, symbol1:orderbook.asks[i].specification.quantity.currency, symbol2:orderbook.asks[i].specification.totalPrice.currency, price:(ask).toFixed(accuracy)};
+    //       askTotal+=parseFloat(q1);
+    //     }
+    //   }
       
-      // Sort the bid/asks by price
-      bids.sort(function(a,b) {
-          return  b.price - a.price;
-      });
-      asks.sort(function(a,b) {
-          return a.price - b.price;
-      });
+    //   // Sort the bid/asks by price
+    //   bids.sort(function(a,b) {
+    //       return  b.price - a.price;
+    //   });
+    //   asks.sort(function(a,b) {
+    //       return a.price - b.price;
+    //   });
       
-      // Aggregate the bid/asks that are at the same price
-      var aggregatedBids = [];
-      var aggregatedAsks = [];
-      for(var i=0; i<bids.length; i++) {
-        if(aggregatedBids.length==0 || aggregatedBids[aggregatedBids.length-1].price!=bids[i].price)
-          aggregatedBids[aggregatedBids.length] = bids[i];
-        else aggregatedBids[aggregatedBids.length-1].qty+=bids[i].qty;
-      }
-      for(var i=0; i<asks.length; i++) {
-        if(aggregatedAsks.length==0 || aggregatedAsks[aggregatedAsks.length-1].price!=asks[i].price)
-          aggregatedAsks[aggregatedAsks.length] = asks[i];
-        else aggregatedAsks[aggregatedAsks.length-1].qty+=asks[i].qty;
-      }
-      bids = aggregatedBids;
-      asks = aggregatedAsks;
+    //   // Aggregate the bid/asks that are at the same price
+    //   var aggregatedBids = [];
+    //   var aggregatedAsks = [];
+    //   for(var i=0; i<bids.length; i++) {
+    //     if(aggregatedBids.length==0 || aggregatedBids[aggregatedBids.length-1].price!=bids[i].price)
+    //       aggregatedBids[aggregatedBids.length] = bids[i];
+    //     else aggregatedBids[aggregatedBids.length-1].qty+=bids[i].qty;
+    //   }
+    //   for(var i=0; i<asks.length; i++) {
+    //     if(aggregatedAsks.length==0 || aggregatedAsks[aggregatedAsks.length-1].price!=asks[i].price)
+    //       aggregatedAsks[aggregatedAsks.length] = asks[i];
+    //     else aggregatedAsks[aggregatedAsks.length-1].qty+=asks[i].qty;
+    //   }
+    //   bids = aggregatedBids;
+    //   asks = aggregatedAsks;
       
-      //console.log(bids);
-      //console.log(asks);
+    //   //console.log(bids);
+    //   //console.log(asks);
       
-      // Update market price of XRP
-      if(symbol1=="XRP" && symbol2=="USD" && bids.length>0) baseToDollar = bids[0].price;
+    //   // Update market price of XRP
+    //   if(symbol1=="XRP" && symbol2=="USD" && bids.length>0) baseToDollar = bids[0].price;
       
-      // Build the HTML for the orderbook
-      for(var j=0; j<Math.min(bookdepth, Math.max(bids.length, asks.length)); j++) {
+    //   // Build the HTML for the orderbook
+    //   for(var j=0; j<Math.min(bookdepth, Math.max(bids.length, asks.length)); j++) {
       
-        // Clicking on bid/asks gives you a slightly overpaid order to make sure you don't miss the fill by a penny due to rounding error
-        var bidurl = j>=bids.length? "":"<a target='_blank' href='?action=sell&amp;symbol1="+bids[j].symbol1complete+"&amp;price="+(parseFloat(bids[j].price)<0.000002? parseFloat(bids[j].price):parseFloat(parseFloat(bids[j].price)-0.000001))+"&amp;symbol2="+bids[j].symbol2complete+"' onclick='loadURLSymbols(\"sell\", "+bids[j].qty+", \""+bids[j].symbol1complete+"\", "+(parseFloat(bids[j].price)<0.000002? parseFloat(bids[j].price):parseFloat(parseFloat(bids[j].price)-0.000001))+", \""+bids[j].symbol2complete+"\"); return false;'>";
-        var bidurlprice = j>=bids.length? "":"<a target='_blank' href='?action=sell&amp;qty1="+(bids[j].qty)+"&amp;symbol1="+bids[j].symbol1complete+"&amp;price="+(parseFloat(bids[j].price)<0.000002? parseFloat(bids[j].price):parseFloat(parseFloat(bids[j].price)-0.000001))+"&amp;symbol2="+bids[j].symbol2complete+"' onclick='loadURLPrice(\"sell\", \""+bids[j].symbol1complete+"\", "+(parseFloat(bids[j].price)<0.000002? parseFloat(bids[j].price):parseFloat(parseFloat(bids[j].price)-0.000001))+", \""+bids[j].symbol2complete+"\"); return false;'>";
-        var askurl = j>=asks.length? "":"<a target='_blank' href='?action=buy&amp;qty1="+(asks[j].qty)+"&amp;symbol1="+asks[j].symbol1complete+"&amp;price="+parseFloat(parseFloat(asks[j].price)+0.000001)+"&amp;symbol2="+asks[j].symbol2complete+"' onclick='loadURLSymbols(\"buy\", "+asks[j].qty+", \""+asks[j].symbol1complete+"\", "+parseFloat(parseFloat(asks[j].price)+0.000001)+", \""+asks[j].symbol2complete+"\"); return false;'>";
-        var askurlprice = j>=asks.length? "":"<a target='_blank' href='?action=buy&amp;symbol1="+asks[j].symbol1complete+"&amp;price="+parseFloat(parseFloat(asks[j].price)+0.000001)+"&amp;symbol2="+asks[j].symbol2complete+"' onclick='loadURLPrice(\"buy\", \""+asks[j].symbol1complete+"\", "+parseFloat(parseFloat(asks[j].price)+0.000001)+", \""+asks[j].symbol2complete+"\"); return false;'>";
+    //     // Clicking on bid/asks gives you a slightly overpaid order to make sure you don't miss the fill by a penny due to rounding error
+    //     var bidurl = j>=bids.length? "":"<a target='_blank' href='?action=sell&amp;symbol1="+bids[j].symbol1complete+"&amp;price="+(parseFloat(bids[j].price)<0.000002? parseFloat(bids[j].price):parseFloat(parseFloat(bids[j].price)-0.000001))+"&amp;symbol2="+bids[j].symbol2complete+"' onclick='loadURLSymbols(\"sell\", "+bids[j].qty+", \""+bids[j].symbol1complete+"\", "+(parseFloat(bids[j].price)<0.000002? parseFloat(bids[j].price):parseFloat(parseFloat(bids[j].price)-0.000001))+", \""+bids[j].symbol2complete+"\"); return false;'>";
+    //     var bidurlprice = j>=bids.length? "":"<a target='_blank' href='?action=sell&amp;qty1="+(bids[j].qty)+"&amp;symbol1="+bids[j].symbol1complete+"&amp;price="+(parseFloat(bids[j].price)<0.000002? parseFloat(bids[j].price):parseFloat(parseFloat(bids[j].price)-0.000001))+"&amp;symbol2="+bids[j].symbol2complete+"' onclick='loadURLPrice(\"sell\", \""+bids[j].symbol1complete+"\", "+(parseFloat(bids[j].price)<0.000002? parseFloat(bids[j].price):parseFloat(parseFloat(bids[j].price)-0.000001))+", \""+bids[j].symbol2complete+"\"); return false;'>";
+    //     var askurl = j>=asks.length? "":"<a target='_blank' href='?action=buy&amp;qty1="+(asks[j].qty)+"&amp;symbol1="+asks[j].symbol1complete+"&amp;price="+parseFloat(parseFloat(asks[j].price)+0.000001)+"&amp;symbol2="+asks[j].symbol2complete+"' onclick='loadURLSymbols(\"buy\", "+asks[j].qty+", \""+asks[j].symbol1complete+"\", "+parseFloat(parseFloat(asks[j].price)+0.000001)+", \""+asks[j].symbol2complete+"\"); return false;'>";
+    //     var askurlprice = j>=asks.length? "":"<a target='_blank' href='?action=buy&amp;symbol1="+asks[j].symbol1complete+"&amp;price="+parseFloat(parseFloat(asks[j].price)+0.000001)+"&amp;symbol2="+asks[j].symbol2complete+"' onclick='loadURLPrice(\"buy\", \""+asks[j].symbol1complete+"\", "+parseFloat(parseFloat(asks[j].price)+0.000001)+", \""+asks[j].symbol2complete+"\"); return false;'>";
         
-        // Estimate displaying as many digits as we can, using abbreviations like 110K otherwise if the number is too long
-        bidasktable += "<tr>" 
-        +(j<bids.length? 
-        //"<td>"+bidurl+""+bids[j].direction+"</a></td>"
-        "<td>"+bidurl+""+nFormatter(parseFloat(bids[j].qty.toFixed(Math.max(0, accuracy-2-Math.round(bids[j].qty).toString().length))), 4)+"</a></td>"
-        +"<td>"+bids[j].symbol1+"</td>"
-        +"<td>@</td>"
-        +"<td>"+bidurlprice+nFormatter(parseFloat(parseFloat(bids[j].price).toFixed(Math.max(0, accuracy-Math.round(bids[j].price).toString().length))), accuracy)+"</a></td>"
-        +"<td style='text-align; left;'>"+bids[j].symbol2+"</td>"
-        :"<td colspan='"+cols+"'> </td>")
-        +"<td> </td>"
-        +(j<asks.length? 
-        //"<td>"+askurl+""+asks[j].direction+"</a></td>"
-        "<td>"+askurl+""+nFormatter(parseFloat(asks[j].qty.toFixed(Math.max(0, accuracy-2-Math.round(asks[j].qty).toString().length))), 4)+"</a></td>"
-        +"<td>"+asks[j].symbol1+"</td>"
-        +"<td>@</td>"
-        +"<td>"+askurlprice+nFormatter(parseFloat(parseFloat(asks[j].price).toFixed(Math.max(0, accuracy-Math.round(asks[j].price).toString().length))), accuracy)+"</a></td>"
-        +"<td style='text-align; left;'>"+asks[j].symbol2+"</td>"
-        :"<td colspan='"+cols+"'> </td>")+"</tr>";
-      }
+    //     // Estimate displaying as many digits as we can, using abbreviations like 110K otherwise if the number is too long
+    //     bidasktable += "<tr>" 
+    //     +(j<bids.length? 
+    //     //"<td>"+bidurl+""+bids[j].direction+"</a></td>"
+    //     "<td>"+bidurl+""+nFormatter(parseFloat(bids[j].qty.toFixed(Math.max(0, accuracy-2-Math.round(bids[j].qty).toString().length))), 4)+"</a></td>"
+    //     +"<td>"+bids[j].symbol1+"</td>"
+    //     +"<td>@</td>"
+    //     +"<td>"+bidurlprice+nFormatter(parseFloat(parseFloat(bids[j].price).toFixed(Math.max(0, accuracy-Math.round(bids[j].price).toString().length))), accuracy)+"</a></td>"
+    //     +"<td style='text-align; left;'>"+bids[j].symbol2+"</td>"
+    //     :"<td colspan='"+cols+"'> </td>")
+    //     +"<td> </td>"
+    //     +(j<asks.length? 
+    //     //"<td>"+askurl+""+asks[j].direction+"</a></td>"
+    //     "<td>"+askurl+""+nFormatter(parseFloat(asks[j].qty.toFixed(Math.max(0, accuracy-2-Math.round(asks[j].qty).toString().length))), 4)+"</a></td>"
+    //     +"<td>"+asks[j].symbol1+"</td>"
+    //     +"<td>@</td>"
+    //     +"<td>"+askurlprice+nFormatter(parseFloat(parseFloat(asks[j].price).toFixed(Math.max(0, accuracy-Math.round(asks[j].price).toString().length))), accuracy)+"</a></td>"
+    //     +"<td style='text-align; left;'>"+asks[j].symbol2+"</td>"
+    //     :"<td colspan='"+cols+"'> </td>")+"</tr>";
+    //   }
       
-      // If the marketcap we looked up is less than what's in the orderbook, use what's in the orderbook
-      if(mktcap1<askTotal) mktcap1 = askTotal;
-      if(mktcap2<bidTotal) mktcap2 = bidTotal;
+    //   // If the marketcap we looked up is less than what's in the orderbook, use what's in the orderbook
+    //   if(mktcap1<askTotal) mktcap1 = askTotal;
+    //   if(mktcap2<bidTotal) mktcap2 = bidTotal;
       
-      // Flip the sides because it's more natural to show marketcap of what's being sold
-      bidasktable+="<tr><td colspan='"+(cols)+"' style='text-align:left; border-width:0px;'>Total "+symbol2+" Issued: "+(mktcap2==0? "---":nFormatter(mktcap2, 2))+"</td><td colspan='1' style='border-width:0; text-align:center; overflow:hidden;'>"+new Date(Date.now()).toLocaleTimeString('en-GB')+"</td><td colspan='"+(cols)+"' style='text-align:right; border-width:0px;'>Total "+symbol1+" Issued: "+(mktcap1==0? "---":nFormatter(mktcap1, 2))+"</td></tr>";
+    //   // Flip the sides because it's more natural to show marketcap of what's being sold
+    //   bidasktable+="<tr><td colspan='"+(cols)+"' style='text-align:left; border-width:0px;'>Total "+symbol2+" Issued: "+(mktcap2==0? "---":nFormatter(mktcap2, 2))+"</td><td colspan='1' style='border-width:0; text-align:center; overflow:hidden;'>"+new Date(Date.now()).toLocaleTimeString('en-GB')+"</td><td colspan='"+(cols)+"' style='text-align:right; border-width:0px;'>Total "+symbol1+" Issued: "+(mktcap1==0? "---":nFormatter(mktcap1, 2))+"</td></tr>";
       
-      bidasktable += "</table>";
+    //   bidasktable += "</table>";
       
-      return bidasktable;
-    }
-    else return ""; 
+    //   return bidasktable;
+    // }
+    // else return ""; 
+    return "";
   }, function(err) { console.log("Error building orderbook info: "+err); return ""; }).then(function(bidasktable) { 
 
       // Show or hide the book depending if we have anything; again don't update while we're typing
@@ -1954,7 +1957,7 @@ function showOrHideOrderbook() {
 
 // Resize the layout to fit the page
 function rescaleWindow(resizeChat) {
-  if(resizeChat===undefined || resizeChat=='undefined') resizeChat = true;
+  //if(resizeChat===undefined || resizeChat=='undefined') resizeChat = true;
   $('#container').css('height', Math.floor(Math.max(600, $(window).height())*.97)+'px');
   $("#particles-js").css("height", ($("#container").height()-70-5)+"px");
   $("#loginBackground").css("height", (windowHeight())+"px");
@@ -1986,17 +1989,17 @@ function rescaleWindow(resizeChat) {
   
   refreshLayout(); // has to be before chat fullscreen because of dependency on other element positions
   
-  if(resizeChat && showChat) {
-    rescaleChat();
-    resetProfileSize();
-  }
+  // if(resizeChat && showChat) {
+  //   //rescaleChat();
+  //   resetProfileSize();
+  // }
 }
-function rescaleChat() {
-  if(isMobile() || chatIsFullScreen())
-    chatFullScreen();
-  else resetChatSize();
-  refreshChatLayout();
-}
+// function rescaleChat() {
+//   if(isMobile() || chatIsFullScreen())
+//     chatFullScreen();
+//   else resetChatSize();
+//   refreshChatLayout();
+// }
 // Recenter content after text changes
 function refreshLayout() {
   // controlMiscMenu only hidden for desktop, in which case show the miscMenu always
@@ -3578,7 +3581,7 @@ function cancelSendOptions() {
 
 // Login warning when no secret key
 function loginWarning() {
-  if(isMobile()&&showChat) hideChatbox();
+  //if(isMobile()&&showChat) hideChatbox();
   errored=true; 
   $("#errors").html("You must <a href='#' onclick='showLogin();'>Login</a> with your secret key first to do that.");
   refreshLayout();
@@ -4108,234 +4111,234 @@ function marquee(a, b) {
 }
 
 // Run Ripple-powered chatroom, all chat stored on Ripple ledger via memos!
-function runChat() {
-  // Ping the chatwallet for incoming transactions and parse the memos attached
+// function runChat() {
+//   // Ping the chatwallet for incoming transactions and parse the memos attached
   
-  if(showChat) { // download chat only if the box is showing and enabled
+//   if(showChat) { // download chat only if the box is showing and enabled
   
-    var firstRun = false;
-    var options = {earliestFirst:true, initiated:false, limit:5, types:["payment"]};
-    if(lastChat!="") {
-      if(lastChat!=null) {
-        options.start=lastChat;
-      }
-    }
-    else { // only first time page runs do we show this
-      lastChat = null; // so we go to the block above next time but still don't have an ID
-      firstRun = true;
-      options.earliestFirst = false;
-      options.limit = 20;
-    }
-    if(firstRun) {
-      $("#chatHistoryContents").append("Retrieving chat messages...");
-      console.log("Retrieving chat for "+options.limit+" messages...");
-    }
-    else {
-      console.log("Querying chat for "+options.limit+" messages...");
-    }
+//     var firstRun = false;
+//     var options = {earliestFirst:true, initiated:false, limit:5, types:["payment"]};
+//     if(lastChat!="") {
+//       if(lastChat!=null) {
+//         options.start=lastChat;
+//       }
+//     }
+//     else { // only first time page runs do we show this
+//       lastChat = null; // so we go to the block above next time but still don't have an ID
+//       firstRun = true;
+//       options.earliestFirst = false;
+//       options.limit = 20;
+//     }
+//     if(firstRun) {
+//       $("#chatHistoryContents").append("Retrieving chat messages...");
+//       console.log("Retrieving chat for "+options.limit+" messages...");
+//     }
+//     else {
+//       console.log("Querying chat for "+options.limit+" messages...");
+//     }
     
-    new Promise(function(resolve, reject) { 
-      try {
-        if(transactionAPI.isConnected()) {
-          resolve();
-        }
-        else {
-          console.log('Disconnected in runChat.');
-          try {
-            transactionAPI.connect().then(function() {
-                console.log("Reconnected in runChat.");
-                resolve();
-            }, function (err) {
-              console.log("Failed to reconnect in runChat: "+err);
-              resolve();
-            });
-          }
-          catch (er) {
-            console.log("Failed to reconnect in runChat: "+er);
-            resolve();
-          }
-        }
-      }
-      catch (erx) {
-        console.log("Error in runChat API connect: "+erx);
-        resolve();
-      }
-    }, function(er) { console.log("Error in runChat reconnection: "+er); return null; }).then(function() {
+//     new Promise(function(resolve, reject) { 
+//       try {
+//         if(transactionAPI.isConnected()) {
+//           resolve();
+//         }
+//         else {
+//           console.log('Disconnected in runChat.');
+//           try {
+//             transactionAPI.connect().then(function() {
+//                 console.log("Reconnected in runChat.");
+//                 resolve();
+//             }, function (err) {
+//               console.log("Failed to reconnect in runChat: "+err);
+//               resolve();
+//             });
+//           }
+//           catch (er) {
+//             console.log("Failed to reconnect in runChat: "+er);
+//             resolve();
+//           }
+//         }
+//       }
+//       catch (erx) {
+//         console.log("Error in runChat API connect: "+erx);
+//         resolve();
+//       }
+//     }, function(er) { console.log("Error in runChat reconnection: "+er); return null; }).then(function() {
       
-      // Retrieve transactions of the chat wallet as chat history
-      if(!firstRun && transactionAPI.isConnected())
-        return transactionAPI.getTransactions(chatWallet, options );
-      else return null;
+//       // Retrieve transactions of the chat wallet as chat history
+//       if(!firstRun && transactionAPI.isConnected())
+//         return transactionAPI.getTransactions(chatWallet, options );
+//       else return null;
       
-    }, function(err) { 
-      console.log("Error retrieving transactions from chat server: "+err); 
-      return null; 
-    })
-    .then(function(transactions) {
-      if(transactions==null || transactions.length==0) {
-        runChat1DataAPI(options, transactions, firstRun);
-      }
-      else runChat1Transition(transactions, firstRun);
-    },
-    function(err) {
-      console.log("Chat retrieval error: "+err);
-      runChat1DataAPI(options, null, firstRun);
-    });
-  }
-  else {
-    interruptableTimer(runChat, getChatInterval, 0, "chatOff");
-  }
-}
+//     }, function(err) { 
+//       console.log("Error retrieving transactions from chat server: "+err); 
+//       return null; 
+//     })
+//     .then(function(transactions) {
+//       if(transactions==null || transactions.length==0) {
+//         runChat1DataAPI(options, transactions, firstRun);
+//       }
+//       else runChat1Transition(transactions, firstRun);
+//     },
+//     function(err) {
+//       console.log("Chat retrieval error: "+err);
+//       runChat1DataAPI(options, null, firstRun);
+//     });
+//   }
+//   else {
+//     interruptableTimer(runChat, getChatInterval, 0, "chatOff");
+//   }
+// }
 
-function runChat1DataAPI(options, transactions, firstRun) {
-  if(!firstRun) {
-    runChat1Transition(transactions, firstRun);
-    return;
-  }
+// function runChat1DataAPI(options, transactions, firstRun) {
+//   if(!firstRun) {
+//     runChat1Transition(transactions, firstRun);
+//     return;
+//   }
 
-  transactions = [];
-  var url = dataAPI+"/v2/accounts/"+chatWallet+"/transactions?type=Payment&result=tesSUCCESS&descending=true&limit="+options.limit;
-  console.log("No transactions from Ripple network for runChat. Trying dataAPI: "+url);
+//   transactions = [];
+//   var url = dataAPI+"/v2/accounts/"+chatWallet+"/transactions?type=Payment&result=tesSUCCESS&descending=true&limit="+options.limit;
+//   console.log("No transactions from Ripple network for runChat. Trying dataAPI: "+url);
   
-  $.ajax({
-    url: url,
-    type: 'GET',
-    dataType: 'json',
-    success: function(data) {
-      try {
-        console.log(data);
-        if(data!=null && data.transactions!=null) {
-          for(var i=0; i<data.transactions.length; i++) {
-            if(data.transactions[i].tx.Destination!=chatWallet) continue;
-            var obj = {
-              id:data.transactions[i].hash,
-              outcome:{timestamp:new Date(data.transactions[i].date).getTime()},
-              address:data.transactions[i].tx.Account,
-              specification:{memos:null}
-            };
-            if(data.transactions[i].tx.Memos!=null) {
-              obj.specification.memos = [];
-              for(var j=0; j<data.transactions[i].tx.Memos.length; j++) {
-                if(data.transactions[i].tx.Memos[j].Memo!=null && data.transactions[i].tx.Memos[j].Memo.MemoData!=null)
-                  obj.specification.memos[obj.specification.memos.length]={data:decodeHex(data.transactions[i].tx.Memos[j].Memo.MemoData)};
-              }
-            }
-            transactions[transactions.length]=obj;
-          }
-        }
-        if(options.earliestFirst) transactions.reverse();
-        runChat1Transition(transactions, firstRun);
-      }
-      catch (err) { 
-        console.log("Error retrieving dataAPI history for runChat: "+err);
-        runChat1Transition(transactions, firstRun);
-      }      
-    },
-    error: function(XMLHttpRequest, textStatus, errorThrown) { 
-      console.log('Network error retrieving dataAPI history for runChat:' + XMLHttpRequest.responseText);
-      runChat1Transition(transactions, firstRun);
-    }
-  });
+//   $.ajax({
+//     url: url,
+//     type: 'GET',
+//     dataType: 'json',
+//     success: function(data) {
+//       try {
+//         console.log(data);
+//         if(data!=null && data.transactions!=null) {
+//           for(var i=0; i<data.transactions.length; i++) {
+//             if(data.transactions[i].tx.Destination!=chatWallet) continue;
+//             var obj = {
+//               id:data.transactions[i].hash,
+//               outcome:{timestamp:new Date(data.transactions[i].date).getTime()},
+//               address:data.transactions[i].tx.Account,
+//               specification:{memos:null}
+//             };
+//             if(data.transactions[i].tx.Memos!=null) {
+//               obj.specification.memos = [];
+//               for(var j=0; j<data.transactions[i].tx.Memos.length; j++) {
+//                 if(data.transactions[i].tx.Memos[j].Memo!=null && data.transactions[i].tx.Memos[j].Memo.MemoData!=null)
+//                   obj.specification.memos[obj.specification.memos.length]={data:decodeHex(data.transactions[i].tx.Memos[j].Memo.MemoData)};
+//               }
+//             }
+//             transactions[transactions.length]=obj;
+//           }
+//         }
+//         if(options.earliestFirst) transactions.reverse();
+//         runChat1Transition(transactions, firstRun);
+//       }
+//       catch (err) { 
+//         console.log("Error retrieving dataAPI history for runChat: "+err);
+//         runChat1Transition(transactions, firstRun);
+//       }      
+//     },
+//     error: function(XMLHttpRequest, textStatus, errorThrown) { 
+//       console.log('Network error retrieving dataAPI history for runChat:' + XMLHttpRequest.responseText);
+//       runChat1Transition(transactions, firstRun);
+//     }
+//   });
   
-}
+// }
 
-function runChat1Transition(transactions, firstRun) {
-  // Need to iterate through messages one at a time in linear fashion
-  if(firstRun) getAllDisplayNames(function () { runChat3(transactions, firstRun); });
-  else 
-    runChat2(transactions, 0, firstRun);
-}
+// function runChat1Transition(transactions, firstRun) {
+//   // Need to iterate through messages one at a time in linear fashion
+//   if(firstRun) getAllDisplayNames(function () { runChat3(transactions, firstRun); });
+//   else 
+//     runChat2(transactions, 0, firstRun);
+// }
 
-// Look up names one at a time
-function runChat2(transactions, i, firstRun) {
-  //console.log("Looking up new chat participants' names...");
-  if(transactions!=null && i<transactions.length) {
-      if(firstRun) i = transactions.length-1;
-      if((!firstRun || i==transactions.length-1) && transactions[i].address!=null && transactions[i].specification!=null 
-            && transactions[i].specification.memos!=null && transactions[i].specification.memos.length>0&& transactions[i].specification.memos.length>0
-            && transactions[i].specification.memos[0].data!=null && transactions[i].specification.memos[0].data!="")
-      {
-          if(!(transactions[i].address in displayName)) {
-            console.log("No display name for "+transactions[i].address);
-              getDisplayName(transactions[i].address).then(function() {
-                runChat2(transactions, i+1, firstRun);
-              });
-          }
-          else runChat2(transactions, i+1, firstRun);
-      }
-      else runChat2(transactions, i+1, firstRun);
-  }
-  else runChat3(transactions, firstRun);
-}
+// // Look up names one at a time
+// function runChat2(transactions, i, firstRun) {
+//   //console.log("Looking up new chat participants' names...");
+//   if(transactions!=null && i<transactions.length) {
+//       if(firstRun) i = transactions.length-1;
+//       if((!firstRun || i==transactions.length-1) && transactions[i].address!=null && transactions[i].specification!=null 
+//             && transactions[i].specification.memos!=null && transactions[i].specification.memos.length>0&& transactions[i].specification.memos.length>0
+//             && transactions[i].specification.memos[0].data!=null && transactions[i].specification.memos[0].data!="")
+//       {
+//           if(!(transactions[i].address in displayName)) {
+//             console.log("No display name for "+transactions[i].address);
+//               getDisplayName(transactions[i].address).then(function() {
+//                 runChat2(transactions, i+1, firstRun);
+//               });
+//           }
+//           else runChat2(transactions, i+1, firstRun);
+//       }
+//       else runChat2(transactions, i+1, firstRun);
+//   }
+//   else runChat3(transactions, firstRun);
+// }
 
-// Print chat messages
-function runChat3(transactions, firstRun) {
-  //console.log("Processing chat transactions...");
-  var newMsgs = 0;
-  if(transactions!=null) {
-    console.log("Found "+transactions.length+" chat transactions...");
+// // Print chat messages
+// function runChat3(transactions, firstRun) {
+//   //console.log("Processing chat transactions...");
+//   var newMsgs = 0;
+//   if(transactions!=null) {
+//     console.log("Found "+transactions.length+" chat transactions...");
     
-    for(var i = 0; i<transactions.length; i++) {
-      if(firstRun) {
-        console.log("Skipping to earliest chat in query for first pass...");
-        i = transactions.length-1;
-      }
-      try {
-        if(chatLoaded && (transactions[i].id==lastChat || transactions[i].outcome.timestamp<lastChatTime)) continue;
-        else {
-          console.log((chatLoaded? "ChatLoaded":"!ChatLoaded")+" "+formatDate(new Date(transactions[i].outcome.timestamp))+" > "+formatDate(new Date(lastChatTime))+": #"+lastChat+" => "+transactions[i].id);
-          lastChat = transactions[i].id;
-          lastChatTime = transactions[i].outcome.timestamp;
-        }
+//     for(var i = 0; i<transactions.length; i++) {
+//       if(firstRun) {
+//         console.log("Skipping to earliest chat in query for first pass...");
+//         i = transactions.length-1;
+//       }
+//       try {
+//         if(chatLoaded && (transactions[i].id==lastChat || transactions[i].outcome.timestamp<lastChatTime)) continue;
+//         else {
+//           console.log((chatLoaded? "ChatLoaded":"!ChatLoaded")+" "+formatDate(new Date(transactions[i].outcome.timestamp))+" > "+formatDate(new Date(lastChatTime))+": #"+lastChat+" => "+transactions[i].id);
+//           lastChat = transactions[i].id;
+//           lastChatTime = transactions[i].outcome.timestamp;
+//         }
         
-        // print the earliest one (last one) on the first loop because it'll be skipped by options.start in the future
-        if((!firstRun || i==transactions.length-1) && transactions[i].address!=null && transactions[i].specification!=null 
-          && transactions[i].specification.memos!=null && transactions[i].specification.memos.length>0&& transactions[i].specification.memos.length>0
-          && transactions[i].specification.memos[0].data!=null && transactions[i].specification.memos[0].data!="")
-          {
-            if(isSpam(transactions[i].specification.memos[0].data)) {
-              console.log("Message ignored due to potential code: "+formatDate(new Date(transactions[i].outcome.timestamp))+" > "+transactions[i].id+": "+transactions[i].specification.memos[0].data);
-            }
-            else {
-              if(!chatLoaded && !(transactions[i].address in displayName)) displayName[transactions[i].address] = ""; // prevent look-up later because we already know they don't have a name
+//         // print the earliest one (last one) on the first loop because it'll be skipped by options.start in the future
+//         if((!firstRun || i==transactions.length-1) && transactions[i].address!=null && transactions[i].specification!=null 
+//           && transactions[i].specification.memos!=null && transactions[i].specification.memos.length>0&& transactions[i].specification.memos.length>0
+//           && transactions[i].specification.memos[0].data!=null && transactions[i].specification.memos[0].data!="")
+//           {
+//             if(isSpam(transactions[i].specification.memos[0].data)) {
+//               console.log("Message ignored due to potential code: "+formatDate(new Date(transactions[i].outcome.timestamp))+" > "+transactions[i].id+": "+transactions[i].specification.memos[0].data);
+//             }
+//             else {
+//               if(!chatLoaded && !(transactions[i].address in displayName)) displayName[transactions[i].address] = ""; // prevent look-up later because we already know they don't have a name
               
-              printChat("<b>" + formatDate(new Date(transactions[i].outcome.timestamp))+"</b> - "+(transactions[i].address in displayName && displayName[transactions[i].address]!=""? "<b>"+displayName[transactions[i].address]+" </b> ("+transactions[i].address+")":"<b>"+transactions[i].address+"</b>")+":<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+stripHTML(transactions[i].specification.memos[0].data));
-            }
-            newMsgs++;
-          }
-      }
-      catch(ex) {
-        console.log("Chat parsing error: "+ex);
-      }
-    }
-  }
-  else {
-    console.log("No transactions to process in runChat3.");
-  }
-  if(firstRun) {
-    // avoid querying the same transactions twice
-    console.log("Re-traversing first chat retrieval in chronological order...");
-    if(newMsgs==0) printChat("No messages. Network may be busy.");
-    if(transactions!=null) transactions.reverse();
-    runChat3(transactions, false);
-  }
-  else {
+//               printChat("<b>" + formatDate(new Date(transactions[i].outcome.timestamp))+"</b> - "+(transactions[i].address in displayName && displayName[transactions[i].address]!=""? "<b>"+displayName[transactions[i].address]+" </b> ("+transactions[i].address+")":"<b>"+transactions[i].address+"</b>")+":<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+stripHTML(transactions[i].specification.memos[0].data));
+//             }
+//             newMsgs++;
+//           }
+//       }
+//       catch(ex) {
+//         console.log("Chat parsing error: "+ex);
+//       }
+//     }
+//   }
+//   else {
+//     console.log("No transactions to process in runChat3.");
+//   }
+//   if(firstRun) {
+//     // avoid querying the same transactions twice
+//     console.log("Re-traversing first chat retrieval in chronological order...");
+//     if(newMsgs==0) printChat("No messages. Network may be busy.");
+//     if(transactions!=null) transactions.reverse();
+//     runChat3(transactions, false);
+//   }
+//   else {
     
-    if(!chatLoaded) currentChatUpdateInterval = chatUpdateInterval;
-    else if(chatLoaded && newMsgs>0) // Refresh burst to process any additional messages beyond this
-      currentChatUpdateInterval = 0;
-    else if(currentChatUpdateInterval<chatUpdateInterval)
-      currentChatUpdateInterval+=2;
+//     if(!chatLoaded) currentChatUpdateInterval = chatUpdateInterval;
+//     else if(chatLoaded && newMsgs>0) // Refresh burst to process any additional messages beyond this
+//       currentChatUpdateInterval = 0;
+//     else if(currentChatUpdateInterval<chatUpdateInterval)
+//       currentChatUpdateInterval+=2;
      
-    if(!firstRun && !chatLoaded) {
-      chatLoaded = true;
-    }
+//     if(!firstRun && !chatLoaded) {
+//       chatLoaded = true;
+//     }
      
-    interruptableTimer(runChat, getChatInterval, 0, "chat");
-    //if(firstRun) currentChatUpdateInterval = 0;
-    console.log("Chat refresh in "+getChatInterval()/1000+" seconds.");
-  }
-}
+//     interruptableTimer(runChat, getChatInterval, 0, "chat");
+//     //if(firstRun) currentChatUpdateInterval = 0;
+//     console.log("Chat refresh in "+getChatInterval()/1000+" seconds.");
+//   }
+// }
 
 // Check if text looks like spam
 function isSpam(text) {
@@ -4532,157 +4535,157 @@ function decodeHex(hex) {
   return str
 }
 
-function printChat(msg) {
-  var scrolled = $('#chatHistoryContents').scrollTop()+$('#chatHistoryContents').innerHeight()>=$('#chatHistoryContents')[0].scrollHeight*.75;
-  //console.log(msg);
-  $("#chatHistoryContents").append("<br />"+parseBBC(msg));
-  if(scrolled) $('#chatHistoryContents').scrollTop($('#chatHistoryContents')[0].scrollHeight);
-}
+// function printChat(msg) {
+//   var scrolled = $('#chatHistoryContents').scrollTop()+$('#chatHistoryContents').innerHeight()>=$('#chatHistoryContents')[0].scrollHeight*.75;
+//   //console.log(msg);
+//   $("#chatHistoryContents").append("<br />"+parseBBC(msg));
+//   if(scrolled) $('#chatHistoryContents').scrollTop($('#chatHistoryContents')[0].scrollHeight);
+// }
 
-// Send chat message by submitting an empty order to chatWallet but with memo attached
-function sendChat() {
-  if(address=="" || key=="") printChat("--- You must login with your secret key first! Chat messages cost a fraction of "+baseCurrency+" ("+nFormatter(fee+0.000001, accuracy)+") to create the transactions on the network. ---");
-  else if($("#chatMessage").val()=="") { }
-  else {
-      var payment = {};
-      payment.source = {};
-      payment.source.address = address;
-      payment.source.maxAmount = {};
-      payment.source.maxAmount.value = ""+0.000001;
-      payment.source.maxAmount.currency = baseCurrency;
+// // Send chat message by submitting an empty order to chatWallet but with memo attached
+// function sendChat() {
+//   if(address=="" || key=="") printChat("--- You must login with your secret key first! Chat messages cost a fraction of "+baseCurrency+" ("+nFormatter(fee+0.000001, accuracy)+") to create the transactions on the network. ---");
+//   else if($("#chatMessage").val()=="") { }
+//   else {
+//       var payment = {};
+//       payment.source = {};
+//       payment.source.address = address;
+//       payment.source.maxAmount = {};
+//       payment.source.maxAmount.value = ""+0.000001;
+//       payment.source.maxAmount.currency = baseCurrency;
       
-      payment.destination = {};
-      payment.destination.address = chatWallet;
-      payment.destination.amount = {};
-      payment.destination.amount.value = ""+0.000001;
-      payment.destination.amount.currency = baseCurrency;
+//       payment.destination = {};
+//       payment.destination.address = chatWallet;
+//       payment.destination.amount = {};
+//       payment.destination.amount.value = ""+0.000001;
+//       payment.destination.amount.currency = baseCurrency;
       
-      // Add the chat message
-      payment.memos = [{data:stripHTML($("#chatMessage").val())}];
+//       // Add the chat message
+//       payment.memos = [{data:stripHTML($("#chatMessage").val())}];
       
-      try {
-        console.log(payment);
+//       try {
+//         console.log(payment);
         
-        // Always need to overestimate ledgeroffset and maxfee, else we error out during high traffic
-        var options = {};
-        options.maxFee = maxFee;
-        options.maxLedgerVersionOffset = maxLedgerOffset;
-        noDisconnecting = true;
-        api.preparePayment(address, payment, options).then(function(prepared)
-          {
+//         // Always need to overestimate ledgeroffset and maxfee, else we error out during high traffic
+//         var options = {};
+//         options.maxFee = maxFee;
+//         options.maxLedgerVersionOffset = maxLedgerOffset;
+//         noDisconnecting = true;
+//         api.preparePayment(address, payment, options).then(function(prepared)
+//           {
           
-            var transaction = "";
-            var transactionID = -1;
-            try {
-              var result = api.sign(prepared.txJSON, key);
-              transaction = result.signedTransaction;
-              console.log(transaction);
-              transactionID = result.id;
-            }
-            catch(er) {
-              errored = true;
-              printChat("--- Error signing chat message to send: "+er+" ---");
-            }
+//             var transaction = "";
+//             var transactionID = -1;
+//             try {
+//               var result = api.sign(prepared.txJSON, key);
+//               transaction = result.signedTransaction;
+//               console.log(transaction);
+//               transactionID = result.id;
+//             }
+//             catch(er) {
+//               errored = true;
+//               printChat("--- Error signing chat message to send: "+er+" ---");
+//             }
             
-            if(transaction!="") {
-              $("#chatMessage").prop("placeholder", "Sending... (takes up to 4 sec)");
-              setTimeout(function() { $("#chatMessage").prop("placeholder", "Enter chat to send."); }, 3000);
-              $("#chatMessage").val("");
-              currentChatUpdateInterval = 1; // temporarily speed up updates so you see your comment as soon as it's up
+//             if(transaction!="") {
+//               $("#chatMessage").prop("placeholder", "Sending... (takes up to 4 sec)");
+//               setTimeout(function() { $("#chatMessage").prop("placeholder", "Enter chat to send."); }, 3000);
+//               $("#chatMessage").val("");
+//               currentChatUpdateInterval = 1; // temporarily speed up updates so you see your comment as soon as it's up
               
-              api.submit(transaction).then(function(result) {
-                errored = true;
+//               api.submit(transaction).then(function(result) {
+//                 errored = true;
                 
-                // Friendlier messages
-                if(result.resultCode=="tesSUCCESS")
-                  { } // Ripple takes 4 sec to confirm
-                else if(result.resultCode=="terQUEUED") printChat("--- Chat message queued due to high load on network. Wait a few min and try again if no result. ---");
-                else if(result.resultCode=="tecINSUF_RESERVE_OFFER") printChat("--- Chat not sent due to insufficient "+baseCurrency+". Every message costs at least a fraction of "+baseCurrency+" ("+nFormatter(fee+0.000001, accuracy)+"). ---");
-                else printChat("--- Notice on recent chat submission ("+result.resultCode+"): "+result.resultMessage+". ---");
+//                 // Friendlier messages
+//                 if(result.resultCode=="tesSUCCESS")
+//                   { } // Ripple takes 4 sec to confirm
+//                 else if(result.resultCode=="terQUEUED") printChat("--- Chat message queued due to high load on network. Wait a few min and try again if no result. ---");
+//                 else if(result.resultCode=="tecINSUF_RESERVE_OFFER") printChat("--- Chat not sent due to insufficient "+baseCurrency+". Every message costs at least a fraction of "+baseCurrency+" ("+nFormatter(fee+0.000001, accuracy)+"). ---");
+//                 else printChat("--- Notice on recent chat submission ("+result.resultCode+"): "+result.resultMessage+". ---");
                 
-                noDisconnecting = false;
-              }, function (err) {
-                errored = true;
-                printChat("--- Error sending chat message: "+err+" ---");
-                noDisconnecting = false;
-              });
-            }
-            else noDisconnecting = false;
-        }, function (er) {
-            errored = true;
-            printChat("--- Error preparing to send chat: "+err+" ---");
-            noDisconnecting = false;
-        });
-      }
-      catch(ex) {
-        errored = true;
-        printChat("--- Error sending chat: "+ex+" ---");
-      }
-    }
-}
+//                 noDisconnecting = false;
+//               }, function (err) {
+//                 errored = true;
+//                 printChat("--- Error sending chat message: "+err+" ---");
+//                 noDisconnecting = false;
+//               });
+//             }
+//             else noDisconnecting = false;
+//         }, function (er) {
+//             errored = true;
+//             printChat("--- Error preparing to send chat: "+err+" ---");
+//             noDisconnecting = false;
+//         });
+//       }
+//       catch(ex) {
+//         errored = true;
+//         printChat("--- Error sending chat: "+ex+" ---");
+//       }
+//     }
+// }
 
-// Fill bottom half of the screen with chatbox where the orderbook is
-function chatFullScreen() {
-  if(isMobile()) { // bottom half of page
-    $("#chatbox").css("width", $(window).width()-10);
-    $("#chatbox").css("height", ($("#container").height()-($("#subnavigation").offset().top + $("#subnavigation").height()))*.98);
-    $("#chatbox").css("left", 0);
-    $("#chatbox").css("bottom", 0);
-    $("#chatbox").css("top", "auto" );
-  }
-  else if($(window).height()<600) { // center over orderbook
-    $("#chatbox").css("width", $("#submit").offset().left + $("#submit").width() - $("#action").offset().left);
-    $("#chatbox").css("height", $("#footer").offset().top+$("#footer").height() - $("#errors").offset().top-30);
-    $("#chatbox").css("left", $("#action").offset().left);
-    $("#chatbox").css("top", Math.min(windowHeight()-$("#footer").height()*.15-$("#chatbox").height(), $("#errors").offset().top+30));
-    $("#chatbox").css("bottom", "auto" );
-    $("#chatbox").css("right", "auto" );
-  }
-  else { // full right side
-    $("#chatbox").css("width", ($("#container").width()-($("#container").width()-($("#form").offset().left+$("#form").width()))-$("#submit").width()-$("#submit").offset().left)*.7);
-    $("#chatbox").css("height", ($("#container").height()-($("#subnavigation").offset().top/* + $("#subnavigation").height()*/))*.98);
-    $("#chatbox").css("right", $("#container").width()-($("#form").offset().left+$("#form").width()) );
-    $("#chatbox").css("bottom", $("#container").height()-($("#form").offset().top + $("#form").height()) );
-    $("#chatbox").css("top", "auto" );
-    $("#chatbox").css("left", "auto" );
-  }
-  refreshChatLayout();
-}
-// Check if full screen chat box
-function chatIsFullScreen() {
-  var isFull = false;
-  // bottom half of page
-    if(!isFull) isFull = $("#chatbox").width()*1.1>=$(window).width()-10 
-    && $("#chatbox").height()*1.1>= ($("#container").height()-($("#subnavigation").offset().top + $("#subnavigation").height()))*.98;
-  // center over orderbook
-    if(!isFull) isFull = $("#chatbox").width()*1.1>=$("#submit").offset().left + $("#submit").width() - $("#action").offset().left 
-    && $("#chatbox").height()*1.1>= $("#footer").offset().top+$("#footer").height() - $("#orderbook").offset().top-30;
-  // full right side
-    if(!isFull) isFull = $("#chatbox").width()*1.1>=($("#container").width()-($("#container").width()-($("#form").offset().left+$("#form").width()))-$("#submit").width()-$("#submit").offset().left)*.7
-    && $("#chatbox").height()*1.1>= ($("#container").height()-($("#subnavigation").offset().top + $("#subnavigation").height()))*.98;
+// // Fill bottom half of the screen with chatbox where the orderbook is
+// function chatFullScreen() {
+//   if(isMobile()) { // bottom half of page
+//     $("#chatbox").css("width", $(window).width()-10);
+//     $("#chatbox").css("height", ($("#container").height()-($("#subnavigation").offset().top + $("#subnavigation").height()))*.98);
+//     $("#chatbox").css("left", 0);
+//     $("#chatbox").css("bottom", 0);
+//     $("#chatbox").css("top", "auto" );
+//   }
+//   else if($(window).height()<600) { // center over orderbook
+//     $("#chatbox").css("width", $("#submit").offset().left + $("#submit").width() - $("#action").offset().left);
+//     $("#chatbox").css("height", $("#footer").offset().top+$("#footer").height() - $("#errors").offset().top-30);
+//     $("#chatbox").css("left", $("#action").offset().left);
+//     $("#chatbox").css("top", Math.min(windowHeight()-$("#footer").height()*.15-$("#chatbox").height(), $("#errors").offset().top+30));
+//     $("#chatbox").css("bottom", "auto" );
+//     $("#chatbox").css("right", "auto" );
+//   }
+//   else { // full right side
+//     $("#chatbox").css("width", ($("#container").width()-($("#container").width()-($("#form").offset().left+$("#form").width()))-$("#submit").width()-$("#submit").offset().left)*.7);
+//     $("#chatbox").css("height", ($("#container").height()-($("#subnavigation").offset().top/* + $("#subnavigation").height()*/))*.98);
+//     $("#chatbox").css("right", $("#container").width()-($("#form").offset().left+$("#form").width()) );
+//     $("#chatbox").css("bottom", $("#container").height()-($("#form").offset().top + $("#form").height()) );
+//     $("#chatbox").css("top", "auto" );
+//     $("#chatbox").css("left", "auto" );
+//   }
+//   refreshChatLayout();
+// }
+// // Check if full screen chat box
+// function chatIsFullScreen() {
+//   var isFull = false;
+//   // bottom half of page
+//     if(!isFull) isFull = $("#chatbox").width()*1.1>=$(window).width()-10 
+//     && $("#chatbox").height()*1.1>= ($("#container").height()-($("#subnavigation").offset().top + $("#subnavigation").height()))*.98;
+//   // center over orderbook
+//     if(!isFull) isFull = $("#chatbox").width()*1.1>=$("#submit").offset().left + $("#submit").width() - $("#action").offset().left 
+//     && $("#chatbox").height()*1.1>= $("#footer").offset().top+$("#footer").height() - $("#orderbook").offset().top-30;
+//   // full right side
+//     if(!isFull) isFull = $("#chatbox").width()*1.1>=($("#container").width()-($("#container").width()-($("#form").offset().left+$("#form").width()))-$("#submit").width()-$("#submit").offset().left)*.7
+//     && $("#chatbox").height()*1.1>= ($("#container").height()-($("#subnavigation").offset().top + $("#subnavigation").height()))*.98;
   
-  return isFull;
-}
-function resetChatSize() {
-  if(isMobile()) chatFullScreen();
-  else {
-    $("#chatbox").css("width", ($("#container").width()-($("#container").width()-($("#form").offset().left+$("#form").width()))-$("#submit").width()-$("#submit").offset().left)*.7);
-    $("#chatbox").css("height", ($("#container").height()-($("#container").height()-($("#form").offset().top + $("#form").height()))-$("#submit").height()-$("#submit").offset().top)*.6);
-    $("#chatbox").css("right", $("#container").width()-($("#form").offset().left+$("#form").width()) );
-    $("#chatbox").css("bottom", $("#container").height()-($("#form").offset().top + $("#form").height()) );
-    $("#chatbox").css("top", "auto" );
-    $("#chatbox").css("left", "auto" );
-    refreshChatLayout();
-  }
-}
-function refreshChatLayout() {
-  var scrollDown = $('#chatHistoryContents').scrollTop()+$('#chatHistoryContents').innerHeight()>=$('#chatHistoryContents')[0].scrollHeight*.75;
-  $("#chatMessage").css("width", $("#chatHistory").width()-$("#sendChat").width()-10);
-  $("#chatHistory").css("height", $("#chatbox").height()-$("#chatControls").height()-($("#chatHistory").offset().top-$("#chatbox").offset().top)-($("#chatControls").offset().top-($("#chatHistory").offset().top+$("#chatHistory").height())));
-  $("#chatHistoryContents").css("height", $("#chatHistory").outerHeight()-$("#chatHistoryContents").position().top + +$("#chatHeader").height());
-  if(scrollDown) 
-    $('#chatHistoryContents').scrollTop($('#chatHistoryContents')[0].scrollHeight);
-}
+//   return isFull;
+// }
+// function resetChatSize() {
+//   if(isMobile()) chatFullScreen();
+//   else {
+//     $("#chatbox").css("width", ($("#container").width()-($("#container").width()-($("#form").offset().left+$("#form").width()))-$("#submit").width()-$("#submit").offset().left)*.7);
+//     $("#chatbox").css("height", ($("#container").height()-($("#container").height()-($("#form").offset().top + $("#form").height()))-$("#submit").height()-$("#submit").offset().top)*.6);
+//     $("#chatbox").css("right", $("#container").width()-($("#form").offset().left+$("#form").width()) );
+//     $("#chatbox").css("bottom", $("#container").height()-($("#form").offset().top + $("#form").height()) );
+//     $("#chatbox").css("top", "auto" );
+//     $("#chatbox").css("left", "auto" );
+//     refreshChatLayout();
+//   }
+// }
+// function refreshChatLayout() {
+//   var scrollDown = $('#chatHistoryContents').scrollTop()+$('#chatHistoryContents').innerHeight()>=$('#chatHistoryContents')[0].scrollHeight*.75;
+//   $("#chatMessage").css("width", $("#chatHistory").width()-$("#sendChat").width()-10);
+//   $("#chatHistory").css("height", $("#chatbox").height()-$("#chatControls").height()-($("#chatHistory").offset().top-$("#chatbox").offset().top)-($("#chatControls").offset().top-($("#chatHistory").offset().top+$("#chatHistory").height())));
+//   $("#chatHistoryContents").css("height", $("#chatHistory").outerHeight()-$("#chatHistoryContents").position().top + +$("#chatHeader").height());
+//   if(scrollDown) 
+//     $('#chatHistoryContents').scrollTop($('#chatHistoryContents')[0].scrollHeight);
+// }
 
 // Similar code for profile box
 function profileFullScreen() {
@@ -4849,9 +4852,9 @@ $(document).ready(function() {
     $("#sendOptionsSubmit").on("click", function() { saveSendOptions(); updateURL(); });
     $("#sendOptionsCancel").on("click", function() { cancelSendOptions(); });
     
-    $("#chatMessage").keypress( function(e) { if(e.which==13) {sendChat(); return false; } });
-    $("#chatMessage").on( "click", function() { $('#chatHistoryContents').scrollTop($('#chatHistoryContents')[0].scrollHeight); });
-    $("#sendChat").on("click", function() { sendChat(); });
+    //$("#chatMessage").keypress( function(e) { if(e.which==13) {sendChat(); return false; } });
+    //$("#chatMessage").on( "click", function() { $('#chatHistoryContents').scrollTop($('#chatHistoryContents')[0].scrollHeight); });
+    //$("#sendChat").on("click", function() { sendChat(); });
     
     $("#setDisplayNameSubmit").on("click", function() { saveDisplayName(); });
     $("#setDisplayNameCancel").on("click", function() { cancelDisplayName(); });
@@ -4944,7 +4947,7 @@ $(document).ready(function() {
          refreshLayout();
          loadOrderbook(); 
          refreshLayout();
-         rescaleChat();
+         //rescaleChat();
          resetProfileSize();
       }, function(err) { 
         // Retry if we bug out
@@ -4980,29 +4983,29 @@ $(document).ready(function() {
             if(!isMobile()) {
               
               // Show chat by default
-              showChatbox(false);
+              //showChatbox(false);
               
-              // Draggable and resizable chatbox.  Disable when highlighting the text contents
-              // Irrelevant to mobile, which is already always maxed out
-                $("#chatbox").draggable().resizable({ handles: 'all' }).on('resize', function(e) { refreshChatLayout(); e.stopPropagation(); } );
-                var chatbox = $("#chatbox").draggable();
-                $('#chatHistoryContents', chatbox).mousedown(function(ev) {
-                  chatbox.draggable('disable');
-                }).mouseup(function(ev) {
-                  chatbox.draggable('enable');
-                });
+              // // Draggable and resizable chatbox.  Disable when highlighting the text contents
+              // // Irrelevant to mobile, which is already always maxed out
+              //   $("#chatbox").draggable().resizable({ handles: 'all' }).on('resize', function(e) { refreshChatLayout(); e.stopPropagation(); } );
+              //   var chatbox = $("#chatbox").draggable();
+              //   $('#chatHistoryContents', chatbox).mousedown(function(ev) {
+              //     chatbox.draggable('disable');
+              //   }).mouseup(function(ev) {
+              //     chatbox.draggable('enable');
+              //   });
               
-              // Chatbox double-click to full screen
-              // Mobile is always full screen
-                $("#chatbox").dblclick(function() {
+              // // Chatbox double-click to full screen
+              // // Mobile is always full screen
+              //   $("#chatbox").dblclick(function() {
                   
-                  if(chatIsFullScreen()) {
-                    resetChatSize();
-                  }
-                  else {
-                    chatFullScreen();
-                  }
-                });
+              //     if(chatIsFullScreen()) {
+              //       resetChatSize();
+              //     }
+              //     else {
+              //       chatFullScreen();
+              //     }
+              //   });
               
               // Same code for profile
               $("#profilebox").draggable().resizable({ handles: 'all' }).on('resize', function(e) { refreshProfileLayout(); e.stopPropagation(); } );
@@ -5019,17 +5022,17 @@ $(document).ready(function() {
             }
             else {
               // full screen default for mobile
-              chatFullScreen();
+              //chatFullScreen();
               profileFullScreen();
               
-              hideChatbox(false);
+              //hideChatbox(false);
             }
             
             // Kick off chatbox listener
-            rescaleChat();
+            //rescaleChat();
             getDisplayName().then(function() {
               runProfile().then(function() {
-                runChat();
+                //runChat();
               });
             });
             
@@ -5141,18 +5144,18 @@ $(document).ready(function() {
             
           });
           
-          // Detecting if we're scrolling just the chatbox or the whole about page.
-          $("#chatbox").mouseenter(function(){
-              clearTimeout($(this).data('timeoutId'));
-              disableScrollToAbout = true;
-          }).mouseleave(function(){
-              var someElement = $(this),
-                  timeoutId = setTimeout(function(){
-                      disableScrollToAbout = false;
-                  }, 100);
-              //set the timeoutId, allowing us to clear this trigger if the mouse comes back over
-              someElement.data('timeoutId', timeoutId); 
-          });
+          // // Detecting if we're scrolling just the chatbox or the whole about page.
+          // $("#chatbox").mouseenter(function(){
+          //     clearTimeout($(this).data('timeoutId'));
+          //     disableScrollToAbout = true;
+          // }).mouseleave(function(){
+          //     var someElement = $(this),
+          //         timeoutId = setTimeout(function(){
+          //             disableScrollToAbout = false;
+          //         }, 100);
+          //     //set the timeoutId, allowing us to clear this trigger if the mouse comes back over
+          //     someElement.data('timeoutId', timeoutId); 
+          // });
           
           // Detecting if we're scrolling just the profilebox or the whole about page.
           $("#profilebox").mouseenter(function(){
